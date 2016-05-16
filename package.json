@@ -1,7 +1,7 @@
 {
   "name": "kafka-java-bridge",
   "description": "Kafka java client wrpapper. Currently only High Level Consumer support implemented. Suppports kafka version 0.8 and up",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "LivePersonInc",
     "email": "kafka-java-bridge-lp@liveperson.com"

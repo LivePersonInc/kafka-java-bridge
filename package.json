@@ -55,7 +55,6 @@
       "type": "git",
       "url": "https://github.com/LivePersonInc/kafka-java-bridge"
   },
-  "readme": "./README.md",
   "license": "MIT",
   "engines": {
       "node": ">=0.10.0",

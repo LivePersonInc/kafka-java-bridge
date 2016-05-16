@@ -87,7 +87,7 @@ Libraries compared:
 
 We show below representative cpu consumption (lower is better) for processing same amount of messages per second(~11K).
 
-![image](https://cloud.githubusercontent.com/assets/3764373/15294778/49a5fdce-1b96-11e6-827f-1d3a1e3159ec.png).
+![image 1](https://cloud.githubusercontent.com/assets/3764373/15296980/8a3ac996-1ba0-11e6-92d2-0e9c69e14d2b.png).
 
 |*Library name* |*CPU% average*|
 |:----------------:|:------------:|

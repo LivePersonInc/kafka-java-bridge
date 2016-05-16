@@ -11,7 +11,6 @@ kafka-java-bridge
 
 Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apache.org/082/documentation.html#highlevelconsumerapi). 
 
-=================
 
   * [Motivation](#motivation)
   * [Installation](#installation)

@@ -1,0 +1,19 @@
+{
+  "curly":true,
+  "eqeqeq":true,
+  "undef":true,
+  "unused":false,
+  "eqnull":true,
+  "noarg":true,
+  "nonew":false,
+  "node":true,
+  "devel":false,
+  "strict": false,
+  "globalstrict": true,
+  "globals":{
+    "module": true,
+    "__dirname":true,
+    "exports": true,
+    "require":true
+  }
+}

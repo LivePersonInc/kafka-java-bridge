@@ -1,0 +1,64 @@
+{
+  "name": "kafka-java-bridge",
+  "description": "Kafka java client wrpapper. Currently only High Level Consumer support implemented. Suppports kafka version 0.8 and up",
+  "version": "0.1.0",
+  "author": {
+    "name": "LivePersonInc",
+    "email": "kafka-java-bridge-lp@liveperson.com"
+  },
+  "contributors": [
+    {
+      "name": "Eli Ostro",
+      "email": "elio@liveperson.com"
+    },
+    {
+      "name": "Reem Diab",
+      "email": "reemd@liveperson.com"
+    }
+  ],
+  "keywords": [
+    "kafka",
+    "java",
+    "highLevelConsumer",
+    "high",
+    "level",
+    "consumer",
+    "kafka0.8",
+    "kafka8",
+    "zookeeper",
+    "liveperson"
+  ],
+  "main": "./index.js",
+  "scripts": {
+    "postinstall": "node ./scripts/postinstall.js"
+  },
+  "dependencies": {
+    "java": ">=0.6.1"
+  },
+  "devDependencies": {
+    "chai": "~3.5.0",
+    "grunt": "~1.0.1",
+    "grunt-available-tasks": "~0.6.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-env": "~0.4.4",
+    "grunt-istanbul": "~0.7.0",
+    "grunt-mocha-test": "~0.12.7",
+    "grunt-node-version": "~1.0.0",
+    "load-grunt-config": "~0.19.1",
+    "mocha": "~2.4.5",
+    "mockery": "~1.7.0",
+    "sinon": "~1.17.2",
+    "time-grunt": "~1.3.0"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/LivePersonInc/kafka-java-bridge"
+  },
+  "readme": "./README.md",
+  "license": "MIT",
+  "engines": {
+      "node": ">=0.10.0",
+      "npm": ">=3.4.0"
+  }
+}

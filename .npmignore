@@ -1,0 +1,7 @@
+.idea
+*.log
+node_modules
+*.xml
+*.pom
+*.iml
+pom.xml.releaseBackup

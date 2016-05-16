@@ -1,0 +1,1 @@
+exports.HLConsumer = require('./lib/hlConsumer');

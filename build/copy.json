@@ -1,0 +1,14 @@
+{
+  "all": {
+    "files": [
+      {
+        "expand": true,
+        "src": [
+          "config/*"
+        ],
+        "dest": "test/coverage/instrument/",
+        "filter": "isFile"
+      }
+    ]
+  }
+}

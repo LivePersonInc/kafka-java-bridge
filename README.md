@@ -1,7 +1,7 @@
 kafka-java-bridge
 =================
 
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
 [![Build Status](https://travis-ci.org/LivePersonInc/kafka-java-bridge.svg)](https://travis-ci.org/LivePersonInc/kafka-java-bridge)
 [![npm version](https://badge.fury.io/js/kafka-java-bridge.svg)](http://badge.fury.io/js/kafka-java-bridge)
 [![Dependency Status](https://david-dm.org/LivePersonInc/kafka-java-bridge.svg?theme=shields.io)](https://david-dm.org/LivePersonInc/kafka-java-bridge)

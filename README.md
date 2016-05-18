@@ -8,6 +8,7 @@ kafka-java-bridge
 [![devDependency Status](https://david-dm.org/LivePersonInc/kafka-java-bridge/dev-status.svg?theme=shields.io)](https://david-dm.org/LivePersonInc/kafka-java-bridge#info=devDependencies)
 [![npm downloads](https://img.shields.io/npm/dm/kafka-java-bridge.svg)](https://img.shields.io/npm/dm/kafka-java-bridge.svg)
 [![NPM](https://nodei.co/npm/kafka-java-bridge.png)](https://nodei.co/npm/kafka-java-bridge/)
+[![license](https://img.shields.io/npm/l/kafka-java-bridge.svg)](LICENSE)
 
 Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apache.org/082/documentation.html#highlevelconsumerapi). 
 

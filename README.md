@@ -17,6 +17,7 @@ Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apa
   * [Example](#example)
   * [Performance and stability](#performance-and-stability)
   * [API](#api)
+  * [Troubleshooting](#troubleshooting)
   * [Sources](#sources)
   * [License](#license)
 
@@ -155,6 +156,11 @@ Stop consuming messages.
 cb - callback is called when the consumer is stopped.
 
 **message/error events can still be emitted until stop callback is called.**
+
+Troubleshooting
+===============
+
+In case of installation failure, you may want to take a look at our dependency java npm [installation](https://www.npmjs.com/package/java#installation) and [troubleshooting](https://www.npmjs.com/package/java#troubleshooting) sections.  
 
 Sources
 =======

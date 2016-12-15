@@ -150,6 +150,7 @@ var consumerOptions = {
 Start consumer messages from kafka topic.
 
 cb - callback is called when the consumer is started.
+
 If callback was called with err it means consumer failed to start.
 
 ### hlConsumer.stop(cb)
@@ -163,7 +164,9 @@ Java Tier Logging
 =================
 
 By default, underlying java tier logging is disabled.
+
 If you wish to enable java tier logging you can place your own log4j.properties file at:
+
 {app root path}/kafka-java-bridge/log4j/log4j.properties
 
 Troubleshooting

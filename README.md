@@ -18,6 +18,7 @@ Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apa
   * [Example](#example)
   * [Performance and stability](#performance-and-stability)
   * [API](#api)
+  * [Java Tier Logging](#java-tier-logging)
   * [Troubleshooting](#troubleshooting)
   * [Sources](#sources)
   * [License](#license)
@@ -157,6 +158,13 @@ Stop consuming messages.
 cb - callback is called when the consumer is stopped.
 
 **message/error events can still be emitted until stop callback is called.**
+
+Java Tier Logging
+=================
+
+By default, underlying java tier logging is disabled.
+If you wish to enable java tier logging you can place your own log4j.properties file at:
+{app root path}/kafka-java-bridge/log4j/log4j.properties
 
 Troubleshooting
 ===============

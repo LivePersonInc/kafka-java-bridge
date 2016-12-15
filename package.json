@@ -1,7 +1,7 @@
 {
   "name": "kafka-java-bridge",
   "description": "Kafka java client wrapper. Currently only High Level Consumer support implemented. Supports kafka version 0.8 and up",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "author": {
     "name": "LivePersonInc",
     "email": "lp-kafka-java-bridge@googlegroups.com"
@@ -38,7 +38,8 @@
     "test": "grunt default --verbose"
   },
   "dependencies": {
-    "java": "~0.7.0"
+    "java": "~0.7.0",
+    "app-root-path": "^2.0.1"
   },
   "devDependencies": {
     "chai": "~3.5.0",

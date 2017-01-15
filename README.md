@@ -84,7 +84,27 @@ process.on('SIGINT', function() {
 Producer Example
 ============
 ```javascript
-TBD
+var StringProducer = require('kafka-java-bridge').StringProducer;
+var BinaryProducer = require('kafka-java-bridge').BinaryProducer;
+
+var stringProducer = new StringProducer({bootstrapServers: "broker1:9092, broker2:9092"});
+var binaryProducer = new BinaryProducer({zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka"});
+
+const buf = new Buffer([0x0, 0x1, 0x2, 0x3, 0x4]);
+binaryProducer.send("myBinaryTopic", buf, function(err, msgMetadata){
+    console.log('send msg cb. err = ' + err + '. metadata = ' + JSON.stringify(msgMetadata));
+});
+stringProducer.send("myStringTopic", "testString", function(err, msgMetadata){
+    console.log('send msg cb. err = ' + err + '. metadata = ' + JSON.stringify(msgMetadata));
+});
+
+process.on('SIGINT', function() {
+    stringProducer.close(function(err){
+        binaryProducer.close(function(err) {
+            process.exit();
+        });
+    });
+});
 ```
 Performance and stability
 ============

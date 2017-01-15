@@ -10,7 +10,7 @@ kafka-java-bridge
 [![NPM](https://nodei.co/npm/kafka-java-bridge.png)](https://nodei.co/npm/kafka-java-bridge/)
 [![license](https://img.shields.io/npm/l/kafka-java-bridge.svg)](LICENSE)
 
-Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apache.org/082/documentation.html#highlevelconsumerapi). 
+Nodejs wrapper for the [JAVA kafka 0.8 client API](http://kafka.apache.org/082/documentation.html). 
 
 
   * [Motivation](#motivation)
@@ -26,7 +26,7 @@ Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apa
 Motivation
 ==========
 
-The need to have a production quality kafka0.8 high level consumer implementation in Nodejs. Please see:
+The need to have a production quality kafka0.8 client implementation in Nodejs. Please see:
   * [Performance and stability](#performance-and-stability)
 for detailed information.
 
@@ -36,7 +36,7 @@ Installation
 1. Make sure you have java v7 or higher installed
 2. Run `npm install kafka-java-bridge`
 
-Example
+Consumer Example
 ============
 ```javascript
 
@@ -80,6 +80,11 @@ process.on('SIGINT', function() {
 
 ```
 
+Producer Example
+============
+```javascript
+TBD
+```
 Performance and stability
 ============
 
@@ -117,7 +122,7 @@ API
 ###  HLConsumer(options)
 
 Consumer object allows messages fetching from kafka topic. 
-Each consumer can consume messages from one topic. For consuming messages from multiple topics you need multiple consumers.
+Each consumer can consume messages from multiple topics.
 
 ```javascript
 
@@ -162,6 +167,54 @@ Stop consuming messages.
 cb - callback is called when the consumer is stopped.
 
 **message/error events can still be emitted until stop callback is called.**
+
+
+###  StringProducer(options)/BinaryProducer(options)
+
+Producer object produces messages to kafka. With each message topic is specified so one producer can produce messages to multiple topics.
+
+**StringProducer should be used to send string messages.**
+**BinaryProducer should be used to send binary messages.**
+
+```javascript
+
+var producerOptions = {
+    zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka",
+    properties: {"TBD": "TBD"}// Optional
+};
+OR 
+var producerOptions = {
+    bootstrapServers: "kafka:2181,kafka2:2181,kafka3:2181/kafka",
+    properties: {"TBD": "TBD"}// Optional
+};
+
+```
+
+
+| *Option name* |*Mandatory*    |*Type*   |*Default value*|*Description*|
+|:--------------|:-------------:|:--------|:-------------:|:------------|
+| bootstrapServers| NO           |`String` |`undefined`    |Kafka broker connection string.|
+| zookeeperUrl  | No           |`String` |`undefined`    |Zookeeper connection string. If provided, broker list will be retrieved from standard path.|
+| properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level producer properties](TBD).|
+
+### producer.send(topic, msg, cb)
+topic - target topic name `String`.
+msg - message to be sent to kafka `String` or `Buffer`.
+cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
+
+### producer.sendWithKey(topic, msg, key, cb)
+topic - target topic name `String`.
+msg - message to be sent to kafka `String` or `Buffer`.
+key - kafka message key [Kafka Key](TBD) `String` or `Buffer`.
+cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
+
+### producer.sendWithKeyAndPartition(topic, msg, key, partition, cb)
+topic - target topic name `String`.
+msg - message to be sent to kafka `String` or `Buffer`.
+key - kafka message key [Kafka Key](TBD) `String` or `Buffer`.
+partition - target partition `Integer`.
+cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
+
 
 Java Tier Logging
 =================

@@ -45,7 +45,8 @@ var HLConsumer = require("kafka-java-bridge").HLConsumer;
 var consumerOptions = {
     zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka",
     groupId: "example-consumer-group-id",
-    topic: "example-topic"
+    topics: ["example-topic1","example-topic2"],
+    getMetaData: true
 };
 
 var consumer = new HLConsumer(consumerOptions);
@@ -58,8 +59,9 @@ consumer.start(function (err) {
     }
 });
 
-consumer.on("message", function (msg) {
+consumer.on("message", function (msg, metadata) {
     console.log("On message. message:", msg);
+    console.log("On message. metadata:", JSON.stringify(metadata));
 });
 
 consumer.on("error", function (err) {
@@ -133,11 +135,12 @@ var consumerOptions = {
 
 | *Option name* |*Mandatory*    |*Type*   |*Default value*|*Description*|
 |:--------------|:-------------:|:--------|:-------------:|:------------|
-| zookeeperUrl  | yes           |`String` |`undefined`    |Zookeeper connection string.|
-| groupId       | yes           |`String` |`undefined`    |Kafka consumer groupId.  From [kafka documentation](http://kafka.apache.org/082/documentation.html#consumerconfigs): groupId is a string that uniquely identifies the group of consumer processes to which this consumer belongs. By setting the same group id multiple processes indicate that they are all part of the same consumer group.|
-| topic         | yes           |`String` |`undefined`    |Kafka topic name.|
+| zookeeperUrl  | Yes           |`String` |`undefined`    |Zookeeper connection string.|
+| groupId       | Yes           |`String` |`undefined`    |Kafka consumer groupId.  From [kafka documentation](http://kafka.apache.org/082/documentation.html#consumerconfigs): groupId is a string that uniquely identifies the group of consumer processes to which this consumer belongs. By setting the same group id multiple processes indicate that they are all part of the same consumer group.|
+| topic         | No           |`String` |`undefined`     |Kafka topic name.|
+| topics        | Yes          |`Array of String`  |`undefined`    |Kafka topics names array.|
 | serverPort    | No            |`Number` |`3042`         |Internal server port used to transfer the messages from the java thread to the node js thread.|
-|threadCount    | No            |`Number` |`1`            |The threading model revolves around the number of partitions in your topic and there are some very specific rules. For More information: [kafka consumer groups](https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example)|                                                                                                                                                 
+|threadCount    | No            |`Number` |`1`            |The threading model revolves around the number of partitions in your topic and there are some very specific rules. For More information: [kafka consumer groups](https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example)|                                                   | getMetadata   | No           |`Boolean` |`false`        |Get message metadata (contains topic, partition and offset ).|                                                                                            
 |properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level consumer properties](http://kafka.apache.org/082/documentation.html#consumerconfigs).|                                                    
                                                                                                               
 

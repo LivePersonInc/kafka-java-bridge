@@ -10,7 +10,7 @@ kafka-java-bridge
 [![NPM](https://nodei.co/npm/kafka-java-bridge.png)](https://nodei.co/npm/kafka-java-bridge/)
 [![license](https://img.shields.io/npm/l/kafka-java-bridge.svg)](LICENSE)
 
-Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apache.org/082/documentation.html#highlevelconsumerapi). 
+Nodejs wrapper for the [JAVA kafka 0.8 client API](http://kafka.apache.org/082/documentation.html). 
 
 
   * [Motivation](#motivation)
@@ -18,6 +18,7 @@ Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apa
   * [Example](#example)
   * [Performance and stability](#performance-and-stability)
   * [API](#api)
+  * [Adding your own jars to classpath](#adding-your-own-jars-to-classpath)
   * [Java Tier Logging](#java-tier-logging)
   * [Troubleshooting](#troubleshooting)
   * [Sources](#sources)
@@ -26,7 +27,7 @@ Nodejs wrapper for the [JAVA high level kafka 0.8 consumer API](http://kafka.apa
 Motivation
 ==========
 
-The need to have a production quality kafka0.8 high level consumer implementation in Nodejs. Please see:
+The need to have a production quality kafka0.8 client implementation in Nodejs. Please see:
   * [Performance and stability](#performance-and-stability)
 for detailed information.
 
@@ -36,7 +37,7 @@ Installation
 1. Make sure you have java v7 or higher installed
 2. Run `npm install kafka-java-bridge`
 
-Example
+Consumer Example
 ============
 ```javascript
 
@@ -45,7 +46,8 @@ var HLConsumer = require("kafka-java-bridge").HLConsumer;
 var consumerOptions = {
     zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka",
     groupId: "example-consumer-group-id",
-    topic: "example-topic"
+    topics: ["example-topic1","example-topic2"],
+    getMetaData: true
 };
 
 var consumer = new HLConsumer(consumerOptions);
@@ -58,8 +60,9 @@ consumer.start(function (err) {
     }
 });
 
-consumer.on("message", function (msg) {
+consumer.on("message", function (msg, metadata) {
     console.log("On message. message:", msg);
+    console.log("On message. metadata:", JSON.stringify(metadata));
 });
 
 consumer.on("error", function (err) {
@@ -78,6 +81,31 @@ process.on('SIGINT', function() {
 
 ```
 
+Producer Example
+============
+```javascript
+var StringProducer = require('kafka-java-bridge').StringProducer;
+var BinaryProducer = require('kafka-java-bridge').BinaryProducer;
+
+var stringProducer = new StringProducer({bootstrapServers: "broker1:9092, broker2:9092"});
+var binaryProducer = new BinaryProducer({zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka"});
+
+const buf = new Buffer([0x0, 0x1, 0x2, 0x3, 0x4]);
+binaryProducer.send("myBinaryTopic", buf, function(err, msgMetadata){
+    console.log('send msg cb. err = ' + err + '. metadata = ' + JSON.stringify(msgMetadata));
+});
+stringProducer.send("myStringTopic", "testString", function(err, msgMetadata){
+    console.log('send msg cb. err = ' + err + '. metadata = ' + JSON.stringify(msgMetadata));
+});
+
+process.on('SIGINT', function() {
+    stringProducer.close(function(err){
+        binaryProducer.close(function(err) {
+            process.exit();
+        });
+    });
+});
+```
 Performance and stability
 ============
 
@@ -115,7 +143,7 @@ API
 ###  HLConsumer(options)
 
 Consumer object allows messages fetching from kafka topic. 
-Each consumer can consume messages from one topic. For consuming messages from multiple topics you need multiple consumers.
+Each consumer can consume messages from multiple topics.
 
 ```javascript
 
@@ -133,11 +161,12 @@ var consumerOptions = {
 
 | *Option name* |*Mandatory*    |*Type*   |*Default value*|*Description*|
 |:--------------|:-------------:|:--------|:-------------:|:------------|
-| zookeeperUrl  | yes           |`String` |`undefined`    |Zookeeper connection string.|
-| groupId       | yes           |`String` |`undefined`    |Kafka consumer groupId.  From [kafka documentation](http://kafka.apache.org/082/documentation.html#consumerconfigs): groupId is a string that uniquely identifies the group of consumer processes to which this consumer belongs. By setting the same group id multiple processes indicate that they are all part of the same consumer group.|
-| topic         | yes           |`String` |`undefined`    |Kafka topic name.|
+| zookeeperUrl  | Yes           |`String` |`undefined`    |Zookeeper connection string.|
+| groupId       | Yes           |`String` |`undefined`    |Kafka consumer groupId.  From [kafka documentation](http://kafka.apache.org/082/documentation.html#consumerconfigs): groupId is a string that uniquely identifies the group of consumer processes to which this consumer belongs. By setting the same group id multiple processes indicate that they are all part of the same consumer group.|
+| topic         | No           |`String` |`undefined`     |Kafka topic name.|
+| topics        | Yes          |`Array of String`  |`undefined`    |Kafka topics names array.|
 | serverPort    | No            |`Number` |`3042`         |Internal server port used to transfer the messages from the java thread to the node js thread.|
-|threadCount    | No            |`Number` |`1`            |The threading model revolves around the number of partitions in your topic and there are some very specific rules. For More information: [kafka consumer groups](https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example)|                                                                                                                                                 
+|threadCount    | No            |`Number` |`1`            |The threading model revolves around the number of partitions in your topic and there are some very specific rules. For More information: [kafka consumer groups](https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example)|                                                   | getMetadata   | No           |`Boolean` |`false`        |Get message metadata (contains topic, partition and offset ).|                                                                                            
 |properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level consumer properties](http://kafka.apache.org/082/documentation.html#consumerconfigs).|                                                    
                                                                                                               
 
@@ -159,6 +188,62 @@ Stop consuming messages.
 cb - callback is called when the consumer is stopped.
 
 **message/error events can still be emitted until stop callback is called.**
+
+
+###  StringProducer(options)/BinaryProducer(options)
+
+Producer object produces messages to kafka. With each message topic is specified so one producer can produce messages to multiple topics.
+
+**StringProducer should be used to send string messages.**
+**BinaryProducer should be used to send binary messages.**
+
+```javascript
+
+var producerOptions = {
+    zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka",
+    properties: {"client.id": "kafka-java-bridge"}// Optional
+};
+OR 
+var producerOptions = {
+    bootstrapServers: "kafka:2181,kafka2:2181,kafka3:2181/kafka",
+    properties: {"client.id": "kafka-java-bridge"}// Optional
+};
+
+```
+
+
+| *Option name* |*Mandatory*    |*Type*   |*Default value*|*Description*|
+|:--------------|:-------------:|:--------|:-------------:|:------------|
+| bootstrapServers| NO           |`String` |`undefined`    |Kafka broker connection string.|
+| zookeeperUrl  | No           |`String` |`undefined`    |Zookeeper connection string. If provided, broker list will be retrieved from standard path.|
+| properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level producer properties](http://kafka.apache.org/documentation.html#producerconfigs).|
+
+### producer.send(topic, msg, cb)
+topic - target topic name `String`.
+msg - message to be sent to kafka `String` or `Buffer`.
+cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
+
+### producer.sendWithKey(topic, msg, key, cb)
+topic - target topic name `String`.
+msg - message to be sent to kafka `String` or `Buffer`.
+key - kafka message key `String` or `Buffer`.
+cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
+
+### producer.sendWithKeyAndPartition(topic, msg, key, partition, cb)
+topic - target topic name `String`.
+msg - message to be sent to kafka `String` or `Buffer`.
+key - kafka message key `String` or `Buffer`.
+partition - target partition `Integer`.
+cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
+
+
+Adding Your Own Jars To Classpath
+================================
+
+If you wish to add jars to the classpath, it can be done by placing them at:
+
+{app root path}/kafka-java-bridge/java/lib/yourjar.jar
+
 
 Java Tier Logging
 =================

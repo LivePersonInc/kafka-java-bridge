@@ -180,12 +180,12 @@ Producer object produces messages to kafka. With each message topic is specified
 
 var producerOptions = {
     zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka",
-    properties: {"TBD": "TBD"}// Optional
+    properties: {"client.id": "kafka-java-bridge"}// Optional
 };
 OR 
 var producerOptions = {
     bootstrapServers: "kafka:2181,kafka2:2181,kafka3:2181/kafka",
-    properties: {"TBD": "TBD"}// Optional
+    properties: {"client.id": "kafka-java-bridge"}// Optional
 };
 
 ```
@@ -195,7 +195,7 @@ var producerOptions = {
 |:--------------|:-------------:|:--------|:-------------:|:------------|
 | bootstrapServers| NO           |`String` |`undefined`    |Kafka broker connection string.|
 | zookeeperUrl  | No           |`String` |`undefined`    |Zookeeper connection string. If provided, broker list will be retrieved from standard path.|
-| properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level producer properties](TBD).|
+| properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level producer properties](http://kafka.apache.org/documentation.html#producerconfigs).|
 
 ### producer.send(topic, msg, cb)
 topic - target topic name `String`.
@@ -205,13 +205,13 @@ cb - callback is called when message is sent. with err in case of failure or msg
 ### producer.sendWithKey(topic, msg, key, cb)
 topic - target topic name `String`.
 msg - message to be sent to kafka `String` or `Buffer`.
-key - kafka message key [Kafka Key](TBD) `String` or `Buffer`.
+key - kafka message key `String` or `Buffer`.
 cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
 
 ### producer.sendWithKeyAndPartition(topic, msg, key, partition, cb)
 topic - target topic name `String`.
 msg - message to be sent to kafka `String` or `Buffer`.
-key - kafka message key [Kafka Key](TBD) `String` or `Buffer`.
+key - kafka message key `String` or `Buffer`.
 partition - target partition `Integer`.
 cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
 

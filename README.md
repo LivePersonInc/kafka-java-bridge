@@ -18,6 +18,7 @@ Nodejs wrapper for the [JAVA kafka 0.8 client API](http://kafka.apache.org/082/d
   * [Example](#example)
   * [Performance and stability](#performance-and-stability)
   * [API](#api)
+  * [Adding your own jars to classpath](#adding-your-own-jars-to-classpath)
   * [Java Tier Logging](#java-tier-logging)
   * [Troubleshooting](#troubleshooting)
   * [Sources](#sources)
@@ -214,6 +215,14 @@ msg - message to be sent to kafka `String` or `Buffer`.
 key - kafka message key `String` or `Buffer`.
 partition - target partition `Integer`.
 cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
+
+
+Adding You Own Jars To Classpath
+================================
+
+If you wish to add jars to the classpath, it can be done by placing them at:
+
+{app root path}/kafka-java-bridge/java/lib/yourjar.jar
 
 
 Java Tier Logging

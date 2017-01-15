@@ -217,7 +217,7 @@ partition - target partition `Integer`.
 cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
 
 
-Adding You Own Jars To Classpath
+Adding Your Own Jars To Classpath
 ================================
 
 If you wish to add jars to the classpath, it can be done by placing them at:

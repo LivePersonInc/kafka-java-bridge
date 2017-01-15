@@ -4,15 +4,12 @@ import kafka.consumer.Consumer;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
-import org.apache.log4j.net.SyslogAppender;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -24,16 +21,14 @@ public class MultiThreadHLConsumer {
 
     private ExecutorService executor;
     private ConsumerConnector consumer;
-    private String topic;
-    private ConsumerThread consumerThread;
+    private String[] topics;
     private int threadCount;
-    private boolean debugPrintStats;
     private ThreadExceptionListener exceptionListener;
-    private long debugPrintIntervalMS;
     private int consumerServerPort;
     private Properties properties;
+    private boolean getMetadata;
 
-    public MultiThreadHLConsumer(String zookeeper, String groupId, String topic, Properties clientProps, int consumerServerPort, int threadCount, ThreadExceptionListener exceptionListener){
+    public MultiThreadHLConsumer(String zookeeper, String groupId, String[] topics, Properties clientProps, int consumerServerPort, int threadCount, boolean getMetadata, ThreadExceptionListener exceptionListener){
         properties = new Properties();
         properties.put("zookeeper.connect", zookeeper);
         properties.put("group.id", groupId);
@@ -41,26 +36,36 @@ public class MultiThreadHLConsumer {
             properties.putAll(clientProps);
         }
 
-        this.topic = topic;
+        this.topics = topics;
         this.threadCount = threadCount;
         this.exceptionListener = exceptionListener;
         this.consumerServerPort = consumerServerPort;
+        this.getMetadata = getMetadata;
     }
 
     public void start(){
         consumer = Consumer.createJavaConsumerConnector(new ConsumerConfig(properties));
         Map<String, Integer> topicCount = new HashMap<String, Integer>();
-        topicCount.put(topic, threadCount);
+        for(String topic: topics) {
+            topicCount.put(topic, threadCount);
+        }
 
         Map<String, List<KafkaStream<byte[], byte[]>>> consumerStreams = consumer.createMessageStreams(topicCount);
-        List<KafkaStream<byte[], byte[]>> streams = consumerStreams.get(topic);
+        executor = Executors.newFixedThreadPool(threadCount * this.topics.length);
 
-        executor = Executors.newFixedThreadPool(threadCount);
+        try{
+            for(String topic: topics){
+                int threadNumber = 0;
+                List<KafkaStream<byte[], byte[]>> streams = consumerStreams.get(topic);
 
-        int threadNumber = 0;
-        for (final KafkaStream stream : streams) {
-            executor.submit(new ConsumerThread(stream, threadNumber, consumerServerPort, exceptionListener));
-            threadNumber++;
+                for (final KafkaStream stream : streams) {
+                    executor.submit(new ConsumerThread(stream, threadNumber, consumerServerPort, getMetadata, exceptionListener));
+                    threadNumber++;
+                }
+            }
+        }catch(Exception ex){
+            stop();
+            throw ex;
         }
     }
 
@@ -69,7 +74,7 @@ public class MultiThreadHLConsumer {
             consumer.shutdown();
         }
 
-        if (executor != null) {
+        if(executor != null) {
             executor.shutdown();
             try {
                 if(!executor.awaitTermination(TERMINATION_SECS, TimeUnit.SECONDS)){

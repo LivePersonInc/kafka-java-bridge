@@ -6,6 +6,7 @@
   "eqnull":true,
   "noarg":true,
   "nonew":false,
+  "esversion": 6,
   "node":true,
   "devel":false,
   "strict": false,

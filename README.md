@@ -219,21 +219,33 @@ var producerOptions = {
 | properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level producer properties](http://kafka.apache.org/documentation.html#producerconfigs).|
 
 ### producer.send(topic, msg, cb)
+
 topic - target topic name `String`.
+
 msg - message to be sent to kafka `String` or `Buffer`.
+
 cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
 
 ### producer.sendWithKey(topic, msg, key, cb)
+
 topic - target topic name `String`.
+
 msg - message to be sent to kafka `String` or `Buffer`.
+
 key - kafka message key `String` or `Buffer`.
+
 cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
 
 ### producer.sendWithKeyAndPartition(topic, msg, key, partition, cb)
+
 topic - target topic name `String`.
+
 msg - message to be sent to kafka `String` or `Buffer`.
+
 key - kafka message key `String` or `Buffer`.
+
 partition - target partition `Integer`.
+
 cb - callback is called when message is sent. with err in case of failure or msg metadata in case of success.
 
 

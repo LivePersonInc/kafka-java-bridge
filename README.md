@@ -190,7 +190,7 @@ cb - callback is called when the consumer is stopped.
 **message/error events can still be emitted until stop callback is called.**
 
 
-###  StringProducer(options)/BinaryProducer(options)
+## StringProducer(options) / BinaryProducer(options)
 
 Producer object produces messages to kafka. With each message topic is specified so one producer can produce messages to multiple topics.
 

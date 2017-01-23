@@ -47,7 +47,7 @@ var consumerOptions = {
     zookeeperUrl: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181/kafka",
     groupId: "example-consumer-group-id",
     topics: ["example-topic1","example-topic2"],
-    getMetaData: true
+    getMetadata: true
 };
 
 var consumer = new HLConsumer(consumerOptions);
@@ -163,8 +163,9 @@ var consumerOptions = {
 |:--------------|:-------------:|:--------|:-------------:|:------------|
 | zookeeperUrl  | Yes           |`String` |`undefined`    |Zookeeper connection string.|
 | groupId       | Yes           |`String` |`undefined`    |Kafka consumer groupId.  From [kafka documentation](http://kafka.apache.org/082/documentation.html#consumerconfigs): groupId is a string that uniquely identifies the group of consumer processes to which this consumer belongs. By setting the same group id multiple processes indicate that they are all part of the same consumer group.|
-| topic         | No           |`String` |`undefined`     |Kafka topic name.|
-| topics        | Yes          |`Array of String`  |`undefined`    |Kafka topics names array.|
+| topic         | No            |`String` |`undefined`     |Kafka topic name.|
+| getMetadata   | No            |`boolean`|false          |If true, message metadata(topic, partition, offset) will be provided with each message. Use false for better performance.|
+| topics        | Yes           |`Array of String`  |`undefined`    |Kafka topics names array.|
 | serverPort    | No            |`Number` |`3042`         |Internal server port used to transfer the messages from the java thread to the node js thread.|
 |threadCount    | No            |`Number` |`1`            |The threading model revolves around the number of partitions in your topic and there are some very specific rules. For More information: [kafka consumer groups](https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example)|                                                   | getMetadata   | No           |`Boolean` |`false`        |Get message metadata (contains topic, partition and offset ).|                                                                                            
 |properties     | No            |`Object` |`undefined`    |Properties names can be found in the following table: [high level consumer properties](http://kafka.apache.org/082/documentation.html#consumerconfigs).|                                                    

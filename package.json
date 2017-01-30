@@ -1,6 +1,6 @@
 {
   "name": "kafka-java-bridge",
-  "description": "Kafka java client wrapper. Currently only High Level Consumer support implemented. Supports kafka version 0.8 and up",
+  "description": "Kafka java client wrapper. Supports kafka version 0.8 and up",
   "version": "0.2.3",
   "author": {
     "name": "LivePersonInc",

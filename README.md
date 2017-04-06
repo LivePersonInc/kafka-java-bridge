@@ -270,7 +270,9 @@ If you wish to enable java tier logging you can place your own log4j.properties 
 Troubleshooting
 ===============
 
-In case of installation failure, you may want to take a look at our dependency java npm [installation](https://www.npmjs.com/package/java#installation) and [troubleshooting](https://www.npmjs.com/package/java#troubleshooting) sections.  
+In case of installation failure, you may want to take a look at our dependency java npm [installation](https://www.npmjs.com/package/java#installation) and [troubleshooting](https://www.npmjs.com/package/java#troubleshooting) sections.
+
+If you are working on a windows machine, you may want to look at [windows-build-tools](https://www.npmjs.com/package/windows-build-tools).
 
 Sources
 =======

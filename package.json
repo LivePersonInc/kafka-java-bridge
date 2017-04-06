@@ -1,7 +1,7 @@
 {
   "name": "kafka-java-bridge",
   "description": "Kafka java client wrapper. Supports kafka version 0.8 and up",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "author": {
     "name": "LivePersonInc",
     "email": "lp-kafka-java-bridge@googlegroups.com"

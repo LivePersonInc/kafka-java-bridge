@@ -116,7 +116,7 @@ Libraries compared:
 * kafka-java-bridge , this package.
 * [kafka-node](https://github.com/SOHU-Co/kafka-node), available High Level Consumer for kafka0.8.
 
-We show below representative cpu consumption (lower is better) for processing same amount of messages per second(~11K).
+1. We show below representative cpu consumption (lower is better) for processing same amount of messages per second(~11K).
 
 ![image 1](https://cloud.githubusercontent.com/assets/3764373/15296980/8a3ac996-1ba0-11e6-92d2-0e9c69e14d2b.png).
 
@@ -124,6 +124,17 @@ We show below representative cpu consumption (lower is better) for processing sa
 |:----------------:|:------------:|
 |kafka-java-bridge |11.76         |
 |kafka-node        |73            |
+
+
+2. Consumer comparision (number of messages). Tested with 16GB Ram, 4 core machine on Amazon AWS EC2 Instance. (Metircs measured with Newrelic)
+
+|*Library name* |*Rpm Avg*|*Network Avg*|*Cpu/System Avg*|
+|:----------------:|:------------:|:------------:|:------------:|
+|kafka-java-bridge |947K     |300 Mb/s        |6.2%  |
+|kafka-node        |87.5     |75 Mb/s         |11.2% |
+
+![Kakfa-Java-Bridge RPM](https://s5.postimg.org/qqmxdmpif/6929a69b-bb0f-4191-bb2d-df52cf62e548.jpg)
+![Kafka-Node RPM](https://s5.postimg.org/437o7h9yf/cc9a8b40-5a71-4a3c-94f4-a9ceb097a01c.jpg)
 
 ### Stability
 

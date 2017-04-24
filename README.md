@@ -131,7 +131,7 @@ Libraries compared:
 |*Library name* |*Rpm Avg*|*Network Avg*|*Cpu/System Avg*|
 |:----------------:|:------------:|:------------:|:------------:|
 |kafka-java-bridge |947K     |300 Mb/s        |6.2%  |
-|kafka-node        |87.5     |75 Mb/s         |11.2% |
+|kafka-node        |87.5K     |75 Mb/s         |11.2% |
 
 ![Kakfa-Java-Bridge RPM](https://s5.postimg.org/qqmxdmpif/6929a69b-bb0f-4191-bb2d-df52cf62e548.jpg)
 ![Kafka-Node RPM](https://s5.postimg.org/437o7h9yf/cc9a8b40-5a71-4a3c-94f4-a9ceb097a01c.jpg)
